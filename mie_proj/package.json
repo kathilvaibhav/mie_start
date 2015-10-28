@@ -1,0 +1,21 @@
+{
+  "name": "express_test",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.1.1",
+    "mongoose": "3.8.25",
+    "body-parser": "^1.0.2",
+    "bcrypt-nodejs": "0.0.3",
+    "passport": "^0.2.0",
+    "passport-http": "^0.2.2",
+    "mongoose-unique-validator":"0.4.1",
+    "multer": "~0.1.6",
+    "swagger-node-express": "~2.0" 
+    
+    
+  }
+}
