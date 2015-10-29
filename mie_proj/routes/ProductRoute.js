@@ -16,11 +16,11 @@ router.route('/product/:brand_name/:product_type')
 
 
 //Create endpoint handlers for /product/modelDetailByName/:model_name 
-router.route('/product/:brand_name/:product_type')
+router.route('/product/modelDetailByName/:model_name ')
   .get(productController.getAllBrandModelDetailsByName);
 
 //Create endpoint handlers for product/modelDetailById/:model_id
-router.route('/product/:brand_name/:product_type')
+router.route('/product/modelDetailById/:model_id')
   .get(productController.getAllBrandModelDetailsById);
 
 

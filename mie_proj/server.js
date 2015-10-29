@@ -2,16 +2,22 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var swagger = require("swagger-node-express");
 var passport = require('passport');
 var fs = require('fs');
 var authController = require('./controllers/auth');
+var swagger = require('./swagger/ApiDoc');
 
 // Connect to the beerlocker MongoDB
 mongoose.connect('mongodb://localhost:27019/dev_test');
 
 // Create our Express application
 var app = express();
+
+app.use(function(req, res, next) {
+	  res.header("Access-Control-Allow-Origin", "*");
+	  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	  next();
+	});
 
 var multer  =  require('multer');
 
@@ -23,54 +29,19 @@ app.use(bodyParser.urlencoded({
 //Use the passport package in our application
 app.use(passport.initialize());
 
-// use swagger 
-
-
-//Couple the application to the Swagger module. 
-swagger.setAppHandler(app);
-
-var findById = {
-		  'spec': {
-		    "description" : "Operations about pets",
-		    "path" : "/pet/{petId}",
-		    "notes" : "Returns a pet based on ID",
-		    "summary" : "Find pet by ID",
-		    "method": "GET",
-		    "parameters" : [swagger.pathParam("petId", "ID of pet that needs to be fetched", "string")],
-		    "type" : "Pet",
-		    "errorResponses" : [swagger.errors.invalid('id'), swagger.errors.notFound('pet')],
-		    "nickname" : "getPetById"
-		  }
-		};
-		 
-swagger.addGet(findById);
-		
-
-
-swagger.addValidator(
-		  function validate(req, path, httpMethod) {
-		    //  example, only allow POST for api_key="special-key" 
-		    if ("POST" == httpMethod || "DELETE" == httpMethod || "PUT" == httpMethod) {
-		      var apiKey = req.headers["api_key"];
-		      if (!apiKey) {
-		        apiKey = url.parse(req.url,true).query["api_key"];
-		      }
-		      if ("special-key" == apiKey) {
-		        return true; 
-		      }
-		      return false;
-		    }
-		    return true;
-		  }
-		);
-
-swagger.configure("http://petstore.swagger.wordnik.com", "0.1");
-
-// Create our Express router
+//Create our Express router
 //var router = express.Router();
 
-app.use('/api/userAPI', require('./routes/UserRoute'));
-app.use('/api/addressAPI', require('./routes/AddressRoute'));
+app.use('/api', require('./routes/UserRoute'));
+app.use('/api', require('./routes/AddressRoute'));
+app.use('/api', require('./routes/ProductRoute'));
+
+// use swagger 
+//Couple the application to the Swagger module. 
+swagger.getSwagget().setAppHandler(app);
+swagger.initializeSwagger(swagger.getSwagget());
+
+
 
 
 // Multer
