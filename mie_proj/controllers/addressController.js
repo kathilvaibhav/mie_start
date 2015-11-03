@@ -10,15 +10,15 @@ exports.postAddress =  function(req, res) {
 
   // Set the user properties that came from the POST data    
   address.HouseNo = req.body.HouseNo;
-  address.TowerNo = req.body.TowerNo;
+  address.Name = req.body.Name;
   address.address = req.body.address;
   address.City = req.body.City;
-  address.Country = req.body.Country;
   address.Pincode = req.body.Pincode;
-  address.isDefault = req.body.isDefault;
   address._cust_id = req.body.user_id;
   address.AddressType = req.body.AddressType;
   address.State = req.body.state;
+  address.locality = req.body.locality;
+  address.landmark = req.body.landmark;
   // Save the beer and check for errors
   address.save(function(err) {
     if (err)
@@ -59,13 +59,15 @@ exports.putAddress = function(req, res) {
 
    // Set the user properties that came from the POST data    
     address.HouseNo = req.body.HouseNo;
-    address.TowerNo = req.body.TowerNo;
+    address.Name = req.body.Name;
     address.address = req.body.address;
     address.City = req.body.City;
-    address.Country = req.body.Country;
     address.Pincode = req.body.Pincode;
-    address.isDefault = req.body.isDefault;
     address._cust_id = req.body.user_id;
+    address.AddressType = req.body.AddressType;
+    address.State = req.body.state;
+    address.locality = req.body.locality;
+    address.landmark = req.body.landmark;
 
     // Save the beer and check for errors
     address.save(function(err) {

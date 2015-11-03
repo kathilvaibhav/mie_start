@@ -16,8 +16,9 @@ var productSchema = new Schema({
 			Standard_warranty_days:{ type: Number },
 			product_price:{ type: Number},
 			service_charge:{ type: Number},
-			Supported_Service_type : { type : Array , default : ['Repair'] },
-			verified:{type:Boolean, default: true}
+			Supported_Service_type : { type : Array},
+			verified:{type:Boolean, default: true},
+			img_url:{type:String}
 
 });
 

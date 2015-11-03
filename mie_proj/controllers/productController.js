@@ -3,8 +3,6 @@
  */
 var Product = require('../model/product');
 
-
-
 // Create endpoint /api/product/brand for GET
 exports.getAllBrandName = function(req, res) {
   

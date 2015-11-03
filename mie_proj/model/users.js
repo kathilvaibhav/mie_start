@@ -3,16 +3,18 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var Schema = mongoose.Schema;
 // Define schema for user
-var userSchema = new Schema({
-  FirstName:  String,
-  LastName: String,
+var userSchema = new Schema({  
+  Name: String,
 //  UserName:   { type: String, required: true ,unique: true},
 //  Password:   { type: String, required: true },
   email: { type: String, required: true ,unique: true},
   mobile:{ type: Number,required: true ,unique: true , min: 1000000000, max: 9999999999},		
   RegistratioDate: { type: Date, default: Date.now },
   LastLogin: { type: Date, default: Date.now },
-  isActive: Boolean
+  isActive: Boolean,
+  address : [{ type: Schema.Types.ObjectId, ref: 'Address' }],
+  products : [{ type: Schema.Types.ObjectId, ref: 'UserProduct' }]
+  
 });
 
 

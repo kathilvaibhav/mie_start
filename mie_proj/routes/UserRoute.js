@@ -12,4 +12,9 @@ router.route('/user/:user_id')
   .get(userController.getUser)
   .put(userController.putUser);
 
+router.route('/userSearch/:mobile')
+.get(userController.getUserByMobile);
+
+
+
 module.exports = router;

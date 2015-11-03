@@ -35,6 +35,7 @@ app.use(passport.initialize());
 app.use('/api', require('./routes/UserRoute'));
 app.use('/api', require('./routes/AddressRoute'));
 app.use('/api', require('./routes/ProductRoute'));
+app.use('/api', require('./routes/UserProductRoute'));
 
 // use swagger 
 //Couple the application to the Swagger module. 

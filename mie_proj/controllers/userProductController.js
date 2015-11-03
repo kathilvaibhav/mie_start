@@ -5,7 +5,7 @@ exports.addUserProduct =  function(req, res) {
   // Create a new instance of the User Product
   var product = new UserProduct(); 
   //Set the UserProduct properties that came from the POST data
-  product._Model_id = req.body.model_id;
+ // product._Model_id = req.body.model_id;
   product.verified  = false;  
   product.product_serial_no = req.body.product_serial_no;
   product.product_nick_name = req.body.product_nick_name;
@@ -13,9 +13,10 @@ exports.addUserProduct =  function(req, res) {
   product.dealer = req.body.dealer;
   product.is_deleted = false;
   product.Purchase_cost = req.body.Purchase_cost;
+  product._cust_id = req.body.user_id;
   
   // Save the user and check for error
-  user.save(function(err) {
+  product.save(function(err) {
     if (err)
       res.json({message:'User Product Record not saved' + err ,data:product});
     else
@@ -38,6 +39,7 @@ exports.updateUserProduct =  function(req, res) {
 	    product.dealer = req.body.dealer;
 	    product.is_deleted = req.body.is_deleted;
 	    product.Purchase_cost = req.body.Purchase_cost;
+	    product._cust_id = req.body.user_id;
 
 	    // Save the userProduct and check for errors
 	    product.save(function(err) {

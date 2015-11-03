@@ -1,17 +1,19 @@
 var swagger = require("swagger-node-express");
+
 // User API
 var createUser = {
 		  'spec': {
 		    "description" : "Create New User in MIE System and will return created user details",
-		    "path" : "/user",
+		    "path" : "/api/user",
 		    "notes" : "Create new User with following paramter past in the request req.body " +
 		    			" firstName , lastName,email,mobile ",
 		    "summary" : "Create New User in MIE",
-		    "consumes":"application/json",
+		    "consumes":["application/json",
+		    			"application/xml"],		    
 		    "method": "POST",
 		    "parameters": [
 		                   {
-		                     "name": "body",
+		                     "name": "body",		                     
 		                     "description": "User object that needs to be added to the store",
 		                     "required": true,
 		                     "type": "User",
@@ -20,6 +22,7 @@ var createUser = {
 		                 ],
 		    "type" : "User",
 		    "errorResponses" : [],
+		    "responseClass" : "User",
 			"nickname": "addUser",
 			"produces": "application/json",
 		  }
@@ -28,11 +31,11 @@ var createUser = {
 var updateUser = {
 		  'spec': {
 		    "description" : "Update User in MIE System and will return updated user details",
-		    "path" : "/user/:user_id",
+		    "path" : "/api/user/{user_id}",
 		    "notes" : "Update User with following paramter past in the request req.body " +
 		    			" firstName , lastName,email,mobile ",
 		    "summary" : "Update New User in MIE",
-		    "consumes":"application/json",swag.addGET(getUser);
+		    "consumes":"application/json",
 		    "method": "PUT",
 		    "parameters": [
 		                   {
@@ -52,12 +55,12 @@ var updateUser = {
 
 var getUser = {
 		  'spec': {
-		    "description" : "Get User from MIE System and will return updated user details",
+		    "description" : "Get User from MIE System",
 		    "path" : "/api/user/{user_id}",
 		    "notes" : "Get User from MIE System and will return updated user details ",
 		    "summary" : "Get User Details",
 		    "consumes":"application/json",
-		    "method": "GET",swag.addGET(getUser);
+		    "method": "GET",
 		    "parameters": [swagger.pathParam("user_id", "ID of the user which is to be fetched", "string")
 		                 ],
 		    "type" : "User",
@@ -172,11 +175,34 @@ exports.getSwagget = function() {
 };
 
 exports.initializeSwagger = function(swag){	
-	swag.addPOST(getUser);
-	swag.addPUT(getUser);
+	var model = {
+			"models": {
+			    "User": {
+			        "id": "User",
+			        "properties": {
+			            "FirstName": {
+			                "type": "string"
+			            },			            
+			            "LastName": {
+			                "type": "string"
+			            },			            
+			            "email": {
+			                "type": "string",
+			                "required" : "true"
+			            },			            
+			            "mobile": {
+			                "type": "Number",
+			                "required" : "true"
+			            }
+			        }
+			    }
+			}};	
+	swagger.addModels(model);
+	swag.addPOST(createUser);
+	swag.addPUT(updateUser);
 	swag.addGET(getUser);
 	swag.addGET(getAllBrandName);
-	
+	/*
 	swag.addValidator(
 			  function validate(req, path, httpMethod) {
 			    //  example, only allow POST for api_key="special-key" 
@@ -193,6 +219,6 @@ exports.initializeSwagger = function(swag){
 			    return true;
 			  }
 			);
-
-	swag.configure("http://petstore.swagger.wordnik.com", "0.1");
+*/
+	swag.configure("http://localhost:3000", "0.1");
 }

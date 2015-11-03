@@ -1,15 +1,15 @@
 var express  = require('express');
 var router   = express.Router();
-var userController = require('../controllers/user');
+var userProductController = require('../controllers/userProductController');
 
 //Create endpoint handlers for /user
-router.route('/user')
-  .post(userController.postUser)
-  .get(userController.getUsers);
+router.route('/userProduct')
+  .post(userProductController.addUserProduct)
+  .get(userProductController.getUserProducts);
 
 //Create endpoint handlers for /user/:user_id
-router.route('/user/:user_id')
-  .get(userController.getUser)
-  .put(userController.putUser);
+router.route('/userProduct/:user_id')
+  .get(userProductController.getUserProduct)
+  .put(userProductController.updateUserProduct);
 
 module.exports = router;
