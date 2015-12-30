@@ -9,7 +9,7 @@ var Schema = mongoose.Schema;
 var productSchema = new Schema({			
 			brand:{ type: String, required: true },
 			product_type:{ type: String, required: true },
-			product_category:{ type: String},
+			product_category:{ type: String,required : true},
 			product_model:{ type: String, required: true },
 			model_desc:{ type: String },
 			Standard_warranty_dtl:[{part_name : String  , duration : String}],
@@ -20,7 +20,7 @@ var productSchema = new Schema({
 			verified:{type:Boolean, default: true},
 			img_url:{type:String}
 
-});
+},{ collection : 'Product' });
 
 // the schema is useless so far
 // we need to create a model using it

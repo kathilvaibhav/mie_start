@@ -14,6 +14,20 @@ exports.getAllBrandName = function(req, res) {
   });
 };
 
+
+//Create endpoint /api/product/brand for GET
+exports.getAllProductType = function(req, res) {
+  
+	Product.collection.distinct('product_type',function(err, products) {
+    if (err)
+      res.send(err);
+    else
+    res.json(products);
+  });
+};
+
+
+
 //Create endpoint /api/product/brand/:brand_name for GET
 exports.getAllBrandProductTypes = function(req, res) {
   
@@ -58,4 +72,4 @@ exports.getAllBrandModelDetailsById = function(req, res) {
 		    else
 		    res.json(product);
 		  });
-};	
+};
