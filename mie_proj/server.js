@@ -4,20 +4,28 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var fs = require('fs');
+var morgan = require('morgan')
 var authController = require('./controllers/auth');
 var swagger = require('./swagger/ApiDoc');
 
-// Connect to the beerlocker MongoDB
+//create a write stream (in append mode) 
+var accessLogStream = fs.createWriteStream('/var/log/mie/access' + '/access.log', {flags: 'a'})
+
+// Connect to the MIE Database MongoDB
 mongoose.connect('mongodb://localhost:27019/dev_test');
 
 // Create our Express application
 var app = express();
 
+//Allow Request
 app.use(function(req, res, next) {
 	  res.header("Access-Control-Allow-Origin", "*");
 	  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	  next();
 	});
+
+//setup the morgan logger 
+app.use(morgan('combined', {stream: accessLogStream}));
 
 var multer  =  require('multer');
 
@@ -31,7 +39,6 @@ app.use(passport.initialize());
 
 //Create our Express router
 //var router = express.Router();
-
 app.use('/api', require('./routes/UserRoute'));
 app.use('/api', require('./routes/AddressRoute'));
 app.use('/api', require('./routes/ProductRoute'));
