@@ -10,7 +10,7 @@ exports.getAllBrandName = function(req, res) {
     if (err)
       res.send(err);
     else
-    res.json(products);
+    res.json(  { message: 'Distinct Brand Items fetched..', data: products });
   });
 };
 
@@ -22,10 +22,9 @@ exports.getAllProductType = function(req, res) {
     if (err)
       res.send(err);
     else
-    res.json(products);
+    res.json(  { message: 'Distinct Product Type..', data: products });
   });
 };
-
 
 
 //Create endpoint /api/product/brand/:brand_name for GET
@@ -35,10 +34,11 @@ exports.getAllBrandProductTypes = function(req, res) {
 			{ brand: req.params.brand_name } ,function(err, products) {
     if (err)
       res.send(err);
-    else
-    res.json(products);
+    else    	
+     res.json({ message: 'Distinct Brand Product Type..', data: products});
   });
 };
+
 
 //Create endpoint /api/product/:brand_name/:product_type for GET
 exports.getAllBrandModel = function(req, res) {
@@ -52,6 +52,7 @@ exports.getAllBrandModel = function(req, res) {
   });
 };
 
+
 //Create endpoint /api/product/modelDetailByName/:model_name for GET
 exports.getAllBrandModelDetailsByName = function(req, res) {
   
@@ -61,7 +62,8 @@ exports.getAllBrandModelDetailsByName = function(req, res) {
 	    else
 	    res.json(products);
 	  });
-	};
+};
+	
 	
 //Create endpoint /api/product/modelDetailById/:model_id for GET
 exports.getAllBrandModelDetailsById = function(req, res) {
