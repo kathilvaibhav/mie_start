@@ -9,10 +9,14 @@ exports.postUser =  function(req, res) {
   // Create a new instance of the User
   var user = new User();
   console.log(req.body);
+  
   // Set the user properties that came from the POST data    
   user.Name = req.body.name;  
   user.email = req.body.email;
   user.mobile = req.body.mobile;
+  user.auth_method = req.body.authMethod;
+  user.auth_code = req.body.authCode;
+
   // Save the beer and check for errors
   user.save(function(err) {
     if (err) {
@@ -58,6 +62,27 @@ exports.getUser = function(req, res) {
   });
 };
 
+
+//Create endpoint /api/beers/:beer_id for GET
+exports.checkUser = function(req, res) {
+
+			
+	User.find({auth_method:req.query.authMethod , auth_code:req.query.authCode } ).populate('address products').exec( function(err, user) {
+    if (err) {        
+      res.send(err);
+    }
+    else {
+    	console.log(user.length );
+    	if(!user || user.length <= 0 ){
+    		 res.json({message:'User Record Not Found' ,data:{}});
+    	} else {
+    		res.json({status:'200', data:user,message:'User Record Found...'});
+    	}
+    	
+    }
+    
+  });
+};
 
 //Create endpoint /api/beers/:beer_id for GET
 exports.getUserByMobile = function(req, res) {
