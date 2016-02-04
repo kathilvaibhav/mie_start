@@ -4,15 +4,15 @@ var Schema = mongoose.Schema;
 var relationship = require("mongoose-relationship");
 // Define schema for user
 var addressSchema = new Schema({
-			HouseNo: String,
-			Name:String,
-			Pincode:{ type: String, required: true },
+			houseNo: String,
+			name:String,
+			pincode:{ type: String, required: true },
 			address:{ type: String, required: true },
 			locality:{ type: String, required: true },
 			landmark:{ type: String, required: true },
 			City:{ type: String, required: true },
-			State:{ type: String, required: true },		
-			AddressType:{ type: String, required: true },			
+			state:{ type: String, required: true },		
+			addressType:{ type: String, required: true },			
 			isDeleted:Boolean,
 			_cust_id : { type: Schema.Types.ObjectId, ref: 'User' ,childPath:"address" , required: true }
 

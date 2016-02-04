@@ -16,7 +16,7 @@ var serviceTracker = new Schema({
 	service_rating:Number,
 	service_parent_id:String,
 	service_feedback:String,
-	CC_id:String,
+	cc_id:String,
 	service_type:String,
 	service_category:String
 

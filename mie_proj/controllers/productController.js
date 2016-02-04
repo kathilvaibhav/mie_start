@@ -75,3 +75,27 @@ exports.getAllBrandModelDetailsById = function(req, res) {
 		    res.json(product);
 		  });
 };
+
+//Create endpoint /api/user for POSTS
+exports.postProduct =  function(req, res) {
+  // Create a new instance of the User
+  var product = new Product();
+  console.log(req.body);
+  
+  // Set the user properties that came from the POST data    
+  product.brand = req.body.brand;  
+  product.product_type = req.body.product_type;
+  product.product_category = req.body.product_category;
+  product.product_model = req.body.product_model;
+  
+  // Save the beer and check for errors
+  product.save(function(err) {
+    if (err) {
+        res.json({message:'Product Record not saved' + err ,data:{}});
+    }
+    else {
+        res.json({data: product });
+    }
+
+  });
+};

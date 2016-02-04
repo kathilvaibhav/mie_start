@@ -12,11 +12,11 @@ var productSchema = new Schema({
 			product_category:{ type: String,required : true},
 			product_model:{ type: String, required: true },
 			model_desc:{ type: String },
-			Standard_warranty_dtl:[{part_name : String  , duration : String}],
-			Standard_warranty_days:{ type: Number },
+			standard_warranty_dtl:[{part_name : String  , duration : String}],
+			standard_warranty_days:{ type: Number },
 			product_price:{ type: Number},
 			service_charge:{ type: Number},
-			Supported_Service_type : { type : Array},
+			supported_Service_type : { type : Array},
 			verified:{type:Boolean, default: true},
 			img_url:{type:String}
 

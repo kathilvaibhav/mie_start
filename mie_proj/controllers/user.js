@@ -11,7 +11,7 @@ exports.postUser =  function(req, res) {
   console.log(req.body);
   
   // Set the user properties that came from the POST data    
-  user.Name = req.body.name;  
+  user.name = req.body.name;  
   user.email = req.body.email;
   user.mobile = req.body.mobile;
   user.auth_method = req.body.authMethod;
@@ -74,9 +74,9 @@ exports.checkUser = function(req, res) {
     else {
     	console.log(user.length );
     	if(!user || user.length <= 0 ){
-    		 res.json({message:'User Record Not Found' ,data:{}});
+    		 res.json({status:'901',message:'User Record Not Found' ,data:{}});
     	} else {
-    		res.json({status:'200', data:user,message:'User Record Found...'});
+    		res.json({status:'900', data:user,message:'User Record Found...'});
     	}
     	
     }
@@ -111,7 +111,7 @@ exports.putUser = function(req, res) {
       res.send(err);
 
  // Set the user properties that came from the PUT data    
-    user.Name = req.body.name;   
+    user.name = req.body.name;   
     user.email = req.body.email;
     user.mobile = req.body.mobile;
 
