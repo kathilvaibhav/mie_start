@@ -36,6 +36,10 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+app.use(bodyParser.json({
+ extended: true
+}));
+
 //Use the passport package in our application
 app.use(passport.initialize());
 
