@@ -7,18 +7,21 @@ var Schema = mongoose.Schema;
 
 // Define schema for user
 var productSchema = new Schema({			
-			brand:{ type: String, required: true },
+			product_brand:{ type: String, required: true },
 			product_type:{ type: String, required: true },
 			product_category:{ type: String,required : true},
 			product_model:{ type: String, required: true },
 			model_desc:{ type: String },
 			standard_warranty_dtl:[{part_name : String  , duration : String}],
 			standard_warranty_days:{ type: Number },
-			product_price:{ type: Number},
+			price:{ type: Number},
 			service_charge:{ type: Number},
-			supported_Service_type : { type : Array},
+			supported_services : { type : Array},
 			verified:{type:Boolean, default: true},
-			img_url:{type:String}
+			image_url:{type:String},
+			page_ref_url:{type:String},
+			product_specs: {size_unit: String , size: Number},
+			product_warranty:[{warranty_type:String,warranty_duration:Number,warranty_details:String}]						 		
 
 },{ collection : 'Product' });
 

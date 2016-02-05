@@ -20,10 +20,10 @@ exports.postUser =  function(req, res) {
   // Save the beer and check for errors
   user.save(function(err) {
     if (err) {
-        res.json({message:'User Record not saved' + err ,data:{}});
+        res.json({status:'901',message:'User Record not saved' ,data:{}});
     }
     else {
-        res.json({data: user });
+        res.json({status:'900',message:'User Record saved' ,data:user});
     }
 
   });
@@ -118,9 +118,10 @@ exports.putUser = function(req, res) {
     // Save the beer and check for errors
     user.save(function(err) {
       if (err) {
-    	  res.send(err);
+    	  res.json({status:'901',message:'User Record not saved' ,data:user});
       } else {
-    	  res.json(user);
+    	  
+    	  res.json({status:'900',message:'User Record saved' ,data:user});    	      	 
       }
     });
   });

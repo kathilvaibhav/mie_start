@@ -3,10 +3,10 @@
  */
 var Product = require('../model/product');
 
-// Create endpoint /api/product/brand for GET
+// Create endpoint /api/product/product_brand for GET
 exports.getAllBrandName = function(req, res) {
   
-	Product.collection.distinct('brand',function(err, products) {
+	Product.collection.distinct('product_brand',function(err, products) {
     if (err)
       res.send(err);
     else
@@ -31,7 +31,7 @@ exports.getAllProductType = function(req, res) {
 exports.getAllBrandProductTypes = function(req, res) {
   
 	Product.collection.distinct('product_type',
-			{ brand: req.params.brand_name } ,function(err, products) {
+			{ product_brand: req.params.brand_name } ,function(err, products) {
     if (err)
       res.send(err);
     else    	
@@ -43,7 +43,7 @@ exports.getAllBrandProductTypes = function(req, res) {
 //Create endpoint /api/product/:brand_name/:product_type for GET
 exports.getAllBrandModel = function(req, res) {
   
-	Product.find({ brand: req.params.brand_name,
+	Product.find({ product_brand: req.params.brand_name,
 			  product_type: req.params.product_type}).select({product_model :1 ,_id :1}).exec(function(err, products) {
     if (err)
       res.send(err);
@@ -83,7 +83,7 @@ exports.postProduct =  function(req, res) {
   console.log(req.body);
   
   // Set the user properties that came from the POST data    
-  product.brand = req.body.brand;  
+  product.product_brand = req.body.brand;  
   product.product_type = req.body.product_type;
   product.product_category = req.body.product_category;
   product.product_model = req.body.product_model;
