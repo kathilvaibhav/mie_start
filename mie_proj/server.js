@@ -7,6 +7,8 @@ var fs = require('fs');
 var morgan = require('morgan')
 var authController = require('./controllers/auth');
 var swagger = require('./swagger/ApiDoc');
+var winMid = require("express-winston-middleware");
+var winston = require("winston");
 
 //create a write stream (in append mode) 
 var accessLogStream = fs.createWriteStream('/var/log/mie/access' + '/access.log', {flags: 'a'})
@@ -38,11 +40,31 @@ app.use(bodyParser.urlencoded({
 app.use(passport.initialize());
 
 //Create our Express router
-//var router = express.Router();
-app.use('/api', require('./routes/UserRoute'));
-app.use('/api', require('./routes/AddressRoute'));
-app.use('/api', require('./routes/ProductRoute'));
-app.use('/api', require('./routes/UserProductRoute'));
+var router = express.Router();
+
+
+ 
+router.use(function (req, res, next) {
+         console.log('Time:',displayTime());
+         next();
+});
+ 
+ 
+router.use(new winMid.request({
+         transports: [
+           new (winston.transports.File)({ filename: '/var/log/mie/traffic/requestTraffic.log' })
+         ]
+       }, {
+         // Metadata to add to each log response.
+         Router: "traffic"
+       }));
+
+app.use('/', router);
+
+router.use('/api', require('./routes/UserRoute'));
+router.use('/api', require('./routes/AddressRoute'));
+router.use('/api', require('./routes/ProductRoute'));
+router.use('/api', require('./routes/UserProductRoute'));
 
 // use swagger 
 //Couple the application to the Swagger module. 
@@ -110,3 +132,27 @@ app.route('/api/photo').post(imageUpload);
 
 // Start the server
 app.listen(3000);
+
+function displayTime() {
+    var str = "";
+ 
+    var currentTime = new Date()
+   
+    var hours = currentTime.getHours()
+    var minutes = currentTime.getMinutes()
+    var seconds = currentTime.getSeconds()
+ 
+    if (minutes < 10) {
+        minutes = "0" + minutes
+    }
+    if (seconds < 10) {
+        seconds = "0" + seconds
+    }
+    str += hours + ":" + minutes + ":" + seconds + " ";
+    if(hours > 11){
+        str += "PM"
+    } else {
+        str += "AM"
+    }
+    return str;
+}
