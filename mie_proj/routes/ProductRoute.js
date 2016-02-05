@@ -27,5 +27,7 @@ router.route('/productModelDetailByName/:model_name ')
 router.route('/productModelDetailById/:model_id')
   .get(productController.getAllBrandModelDetailsById);
 
+router.route('/productBrand')
+.post(productController.postProduct);
 
 module.exports = router;
