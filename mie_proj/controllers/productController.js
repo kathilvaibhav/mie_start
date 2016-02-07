@@ -7,10 +7,14 @@ var Product = require('../model/product');
 exports.getAllBrandName = function(req, res) {
   
 	Product.collection.distinct('product_brand',function(err, products) {
-    if (err)
-      res.send(err);
+    if (err)        	
+    res.json({status:'901',message:'Expetion occurred while fetching product brand' 
+    	  ,data:{},error:err});
     else
-    res.json(  { message: 'Distinct Brand Items fetched..', data: products });
+    res.json(  { status:'900', 
+    	message: 'Distinct Brand Items fetched..', data: products });
+    
+    
   });
 };
 
@@ -20,9 +24,10 @@ exports.getAllProductType = function(req, res) {
   
 	Product.collection.distinct('product_type',function(err, products) {
     if (err)
-      res.send(err);
+    res.json({status:'901',message:'Expetion occurred while fetching product type' 
+        	  ,data:{},error:err});
     else
-    res.json(  { message: 'Distinct Product Type..', data: products });
+    res.json(  { status:'900', message: 'Distinct Product Type..', data: products });
   });
 };
 
@@ -32,23 +37,26 @@ exports.getAllBrandProductTypes = function(req, res) {
   
 	Product.collection.distinct('product_type',
 			{ product_brand: req.params.brand_name } ,function(err, products) {
-    if (err)
-      res.send(err);
-    else    	
-     res.json({ message: 'Distinct Brand Product Type..', data: products});
+    if (err)      
+    	res.json({status:'901',message:'Expetion occurred while fetching product type' 
+  	  ,data:{},error:err});
+    else    	     
+    	res.json(  { status:'900', message: 'Distinct Brand Product Type..', data: products });
   });
 };
 
 
-//Create endpoint /api/product/:brand_name/:product_type for GET
+//Create endpoint /api/productModel/model for GET
 exports.getAllBrandModel = function(req, res) {
   
-	Product.find({ product_brand: req.params.brand_name,
-			  product_type: req.params.product_type}).select({product_model :1 ,_id :1}).exec(function(err, products) {
+	Product.find({ product_brand: req.query.brand_name,
+			  product_type: req.query.product_type}).select({product_model :1 ,_id :1}).exec(function(err, products) {
     if (err)
-      res.send(err);
+    	res.json({status:'901',message:'Expetion occurred while fetching product type' 
+    	  	  ,data:{},error:err});
     else
-    res.json(products);
+    res.json(  { status:'900', message: 'Get model details..', data: products });
+    
   });
 };
 
@@ -58,9 +66,11 @@ exports.getAllBrandModelDetailsByName = function(req, res) {
   
 	Product.find({ product_model: req.params.model_name } ,function(err, products) {
 	    if (err)
-	      res.send(err);
+	      
+	    res.json({status:'901',message:'Expetion occurred while fetching product type' 
+	    	  ,data:{},error:err});
 	    else
-	    res.json(products);
+	    res.json({ status:'900', message: 'Get model details by name..', data: products });
 	  });
 };
 	
@@ -70,9 +80,9 @@ exports.getAllBrandModelDetailsById = function(req, res) {
 	  
 	Product.findById(req.params.model_id,function(err, product) {
 		    if (err)
-		      res.send(err);
-		    else
-		    res.json(product);
+		    res.json({status:'901',message:'Expetion occurred while fetching model details..' ,data:{},error:err});
+		    else		   
+		    res.json({ status:'900', message: 'Get model details by id..', data: products });
 		  });
 };
 
@@ -91,10 +101,11 @@ exports.postProduct =  function(req, res) {
   // Save the beer and check for errors
   product.save(function(err) {
     if (err) {
-        res.json({message:'Product Record not saved' + err ,data:{}});
+        
+        res.json({status:'901',message:'Product record not saved..' ,data:{},error:err});
     }
     else {
-        res.json({data: product });
+        res.json({ status:'900', message: 'Product record saved..', data: products });
     }
 
   });

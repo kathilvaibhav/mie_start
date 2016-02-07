@@ -15,7 +15,7 @@ router.route('/productBrandType/:brand_name')
   .get(productController.getAllBrandProductTypes);
 
 //Create endpoint handlers for /product/:brand_name/:product_type
-router.route('/productModel/:brand_name/:product_type')
+router.route('/productModel/model')
   .get(productController.getAllBrandModel);
 
 

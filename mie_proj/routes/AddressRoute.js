@@ -5,7 +5,7 @@ var addressController = require('../controllers/addressController');
 //Create endpoint handlers for /address
 router.route('/address')
   .post(addressController.postAddress);
-//.post(authController.isAuthenticated,addressController.postAddress);
+
 
 //Create endpoint handlers for /address/:address_id
 router.route('/address/:address_id')
