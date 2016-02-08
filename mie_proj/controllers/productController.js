@@ -78,7 +78,7 @@ exports.getAllBrandModelDetailsByName = function(req, res) {
 //Create endpoint /api/product/modelDetailById/:model_id for GET
 exports.getAllBrandModelDetailsById = function(req, res) {
 	  
-	Product.findById(req.params.model_id,function(err, product) {
+	Product.findById(req.params.model_id,function(err, products) {
 		    if (err)
 		    res.json({status:'901',message:'Expetion occurred while fetching model details..' ,data:{},error:err});
 		    else		   
@@ -105,7 +105,7 @@ exports.postProduct =  function(req, res) {
         res.json({status:'901',message:'Product record not saved..' ,data:{},error:err});
     }
     else {
-        res.json({ status:'900', message: 'Product record saved..', data: products });
+        res.json({ status:'900', message: 'Product record saved..', data: product });
     }
 
   });

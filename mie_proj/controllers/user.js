@@ -10,7 +10,7 @@ exports.postUser =  function(req, res) {
   // Create a new instance of the User
   var user = new User();
   console.log(req.body);
-  logger.getInfoLogger().log("---Request received to add user account with request body -- "+ req.body);
+  logger.getInfoLogger().log("info","---Request received to add user account with request body -- "+ req.body);
   // Set the user properties that came from the POST data    
   user.name = req.body.name;  
   user.email = req.body.email;
