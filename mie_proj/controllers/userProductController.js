@@ -69,6 +69,31 @@ exports.updateUserProduct =  function(req, res) {
 	    	  });
 };
 
+//Create endpoint /api/userProduct/:userProductId for PUT
+exports.deleteUserProduct =  function(req, res) {
+	  // Use the UserProduct model to find a specific user Product
+		UserProduct.findById(req.params.userProductId, function(err, product) {
+	    if (err)
+	    	res.json({status:'901',message:'Expetion occurred while updating user product' 
+	        	  ,data:{},error:err});
+	    else {
+	    	
+		    product.is_deleted = true;
+		    
+		    // Save the userProduct and check for errors
+		    product.save(function(err) {
+		      if (err)
+		    	  res.json({status:'901',message:'Expetion occurred while updating user product' 
+		        	  ,data:{},error:err});
+		      else 
+		    	  res.json({status:'900',message:'User Product updated successfully' 
+		        	  ,data:product});
+		    });
+
+	    }
+	    	  });
+};
+
 //Create endpoint /api/userProduct/ for GET
 exports.getUserProducts = function(req, res) {
   // Use the Beer model to find all beer
