@@ -8,7 +8,7 @@ router.route('/userProduct')
   .get(userProductController.getUserProducts);
 
 //Create endpoint handlers for /user/:user_id
-router.route('/userProduct/:user_id')
+router.route('/userProduct/:userProductId')
   .get(userProductController.getUserProduct)
   .put(userProductController.updateUserProduct);
 
