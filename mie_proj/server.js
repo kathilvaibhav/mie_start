@@ -135,7 +135,7 @@ app.route('/api/photo').post(imageUpload);
 
 
 // Start the server
-app.listen(3000);
+app.listen(8080);
 
 function displayTime() {
     var str = "";
