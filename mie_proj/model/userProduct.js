@@ -13,7 +13,7 @@ var userProductSchema = new Schema({
 			registration_TS:{ type: Date, default: Date.now },
 			purchase_cost:{ type: Number},
 			image_url:{type : String},
-			dealer: {delear_name:String, delear_add: String},
+			dealer: {type : String},
 			product_status: {type : String},
 			service_Interval:{ type: Number},
 			last_service_DT:{ type: Date},
@@ -21,12 +21,17 @@ var userProductSchema = new Schema({
 			is_deleted:{ type: Boolean, required: true },
 			_cust_id : { type: Schema.Types.ObjectId, ref: 'User' ,childPath:"products" , required: true },
 			product_doc_info: [{doc_type:String ,doc_name: String ,doc_url: String } ],
-			service_ids:[ {service_id:{ type: Schema.Types.ObjectId, ref: 'ServiceTracker' }} ]
-			
+			service_ids:[ {service_id:{ type: Schema.Types.ObjectId, ref: 'ServiceTracker' }}], 			
+			mobileLocalLocation:{type : String},	   
+			mobileUserRegContactNumber:{type : String},
+			mobileWarrantyEndsDate:{type : Date},
+			mobileWarrantyStatus:{type : String},
+			mobieWarrantyType:{type : String},
+			_model_id : {  type : String , required: true }
 
 });
 
-userProductSchema.plugin(relationship, { relationshipPathName:'_cust_id' });
+userProductSchema.plugin(relationship, { relationshipPathName:['_cust_id'] });
 
 // the schema is useless so far
 
