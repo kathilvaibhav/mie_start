@@ -10,6 +10,7 @@ var productSchema = new Schema({
 			product_brand:{ type: String, required: true },
 			product_type:{ type: String, required: true },
 			product_category:{ type: String,required : true},
+			product_sub_category:{ type: String },
 			product_model:{ type: String, required: true },
 			model_desc:{ type: String },
 			standard_warranty_dtl:[{part_name : String  , duration : String}],

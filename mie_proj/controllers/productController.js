@@ -62,6 +62,21 @@ exports.getAllProductBrandCategory = function(req, res) {
 
 
 //Create endpoint /api/productModel/model for GET
+exports.getAllProductBrandSubCategory = function(req, res) {
+  
+	Product.collection.distinct('product_sub_category',{ product_brand: req.query.brand_name,
+			  product_type: req.query.product_type,product_category: req.query.product_category},function(err, products) {
+    if (err)
+    	res.json({status:'901',message:'Expetion occurred while fetching product sub category' 
+    	  	  ,data:{},error:err});
+    else
+    res.json(  { status:'900', message: 'Get product category details..', data: products });
+    
+  });
+};
+
+
+//Create endpoint /api/productModel/model for GET
 exports.getAllBrandModel = function(req, res) {
   
 	Product.find({ product_brand: req.query.brand_name,

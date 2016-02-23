@@ -18,6 +18,9 @@ router.route('/productBrandType/:brand_name')
 router.route('/productModel/category')
 .get(productController.getAllProductBrandCategory);
 
+router.route('/productModel/subCategory')
+.get(productController.getAllProductBrandSubCategory);
+
 
 //Create endpoint handlers for /product/:brand_name/:product_type
 router.route('/productModel/model')
