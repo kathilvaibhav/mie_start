@@ -134,7 +134,7 @@ app.route('/api/photo').post(imageUpload);
 
 
 
-// Start the server
+// Start the server at this port
 app.listen(8080);
 
 function displayTime() {
