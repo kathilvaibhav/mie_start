@@ -15,9 +15,8 @@ var userSchema = new Schema({
   lastLogin: { type: Date, default: Date.now },
   isActive: Boolean,
   address : [{ type: Schema.Types.ObjectId, ref: 'Address' }],
-  products : [{ type: Schema.Types.ObjectId, ref: 'UserProduct' }
-              
-  ]
+  products : [{ type: Schema.Types.ObjectId, ref: 'UserProduct' }],
+  feedback : [{Feedback_Text:String}]
   
 });
 

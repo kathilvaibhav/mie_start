@@ -146,3 +146,28 @@ exports.getUserAllProducts = function(req, res) {
 	  });
 	
 };
+
+
+//Create endpoint /api/userProduct/:userProductId for GET
+exports.insertUploadedDocMetaData  = function(req, res) { 
+	UserProduct.findById(req.params.userProductId, function(err, product) {
+    if (err)
+      	res.json({status:'901',message:'Expetion occurred while fetching user product' 
+        	  ,data:{},error:err});
+    else
+    	product.product_doc_info.push({doc_type:req.files.file ,doc_name: req.files.file ,doc_url: '/var/log/img/'+req.files.file });
+    // Save the userProduct and check for errors
+    product.save(function(err) {
+      if (err)
+    	  res.json({status:'901',message:'Expetion occurred while updating user product' 
+        	  ,data:{},error:err});
+      else 
+    	  // record save request is finished lets push this record in user 
+    	  res.json({status:'900',message:'User Product image uploaded successfully' 
+        	  ,data:product});  
+    });
+    
+  });
+};
+
+

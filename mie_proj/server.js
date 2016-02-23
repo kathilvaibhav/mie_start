@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var fs = require('fs');
-var morgan = require('morgan')
+var morgan = require('morgan');
 var authController = require('./controllers/auth');
 var swagger = require('./swagger/ApiDoc');
 var winMid = require("express-winston-middleware");
@@ -69,6 +69,7 @@ router.use('/api', require('./routes/UserRoute'));
 router.use('/api', require('./routes/AddressRoute'));
 router.use('/api', require('./routes/ProductRoute'));
 router.use('/api', require('./routes/UserProductRoute'));
+router.use('/api', require('./routes/FileUploadRoute'));
 
 // use swagger 
 //Couple the application to the Swagger module. 
@@ -99,6 +100,8 @@ app.use(multer({
     },
     inMemory: true //This is important. It's what populates the buffer.
 }));
+
+
 var imageUpload = function(req, res) {
     var file = req.files.file,
         path = './public/profile/img/';
@@ -119,15 +122,12 @@ var imageUpload = function(req, res) {
         console.log('File saved successfully.');
         var data = {
             message: 'File saved successfully.'
-        };
+        	};
         res.jsonp(data);
     });
     stream.end();
     console.log('Stream ended.');
 };
-
-
-app.route('/api/photo').post(imageUpload);
 
 // Register all our routes with /api
 //app.use('/api', router);
