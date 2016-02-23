@@ -22,12 +22,16 @@ var userProductSchema = new Schema({
 			_cust_id : { type: Schema.Types.ObjectId, ref: 'User' ,childPath:"products" , required: true },
 			product_doc_info: [{doc_type:String ,doc_name: String ,doc_url: String } ],
 			service_ids:[ {service_id:{ type: Schema.Types.ObjectId, ref: 'ServiceTracker' }}], 			
-			mobileLocalLocation:{type : String},	   
-			mobileUserRegContactNumber:{type : String},
-			mobileWarrantyEndsDate:{type : Date},
-			mobileWarrantyStatus:{type : String},
-			mobieWarrantyType:{type : String},
-			_model_id : {  type : String , required: true }
+			localLocation:{type : String},	   
+			userRegContactNumber:{type : String},
+			warrantyEndsDate:{type : Date},
+			warrantyStatus:{type : String},
+			warrantyType:{type : String},
+			_model_id : {  type : String  },			
+			brandName : {  type : String  },
+		    productName : {  type : String  },
+		    productCategory : {  type : String  },
+		    productSubCategory : {  type : String  }
 
 });
 

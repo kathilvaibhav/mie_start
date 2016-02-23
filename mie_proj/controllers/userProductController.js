@@ -9,17 +9,23 @@ exports.addUserProduct =  function(req, res) {
   product.verified  = false;  
   product.product_serial_no = req.body.product_serial_no;
   product.product_nick_name = req.body.product_nick_name;
-  product.purchase_DT = req.body.mPurchaseDate;
-  product.dealer = req.body.mDealerInfo;
-  product.is_deleted = false;
-  product.purchase_cost = req.body.mProductPrice;
-  product._cust_id = req.body.user_id;
-  product.mobieLocalLocation= req.body.mLocalLocation;;						   
-  product.mobileUserRegContactNumber = req.body.mUserRegContactNumber;
-  product.mobileWarrantyEndsDate = req.body.mWarrantyEndsDate;
-  product.mobileWarrantyStatus = req.body.mWarrantyStatus;
-  product.mobileWarrantyType = req.body.mWarrantyType;
-  product._model_id = req.body.mModelNo;
+  product.purchase_DT = req.body.purchase_DT;
+  product.dealer = req.body.dealer;
+  product.is_deleted = req.body.is_deleted;
+  product.purchase_cost = req.body.purchase_cost;
+  product._cust_id = req.body._cust_id;
+  product.localLocation= req.body.localLocation;;						   
+  product.userRegContactNumber = req.body.userRegContactNumber;
+  product.warrantyEndsDate = req.body.warrantyEndsDate;
+  product.warrantyStatus = req.body.warrantyStatus;
+  product.warrantyType = req.body.warrantyType;
+  product._model_id = req.body._model_id;  
+  product.brandName = req.body.brandName;
+  product.productName = req.body.productName;
+  product.productCategory = req.body.productCategory;
+  product.productSubCategory = req.body.productSubCategory;
+
+  
   
   // Save the user and check for error
   product.save(function(err) {
@@ -40,20 +46,25 @@ exports.updateUserProduct =  function(req, res) {
 	    	res.json({status:'901',message:'Expetion occurred while updating user product' 
 	        	  ,data:{},error:err});
 	    else {
-	    	product.verified  = false;  
-		    product.product_serial_no = req.body.mSerialNo;
-		    product.product_nick_name = req.body.mNickName;
-		    product.purchase_DT = req.body.mPurchaseDate;
-		    product.dealer = req.body.mDealerInfo;
-		    product.is_deleted = false;
-		    product.purchase_cost = req.body.mProductPrice;
-		    product._cust_id = req.body.user_id;
-		    product.mobieLocalLocation= req.body.mLocalLocation;;						   
-		    product.mobileUserRegContactNumber = req.body.mUserRegContactNumber;
-		    product.mobileWarrantyEndsDate = req.body.mWarrantyEndsDate;
-		    product.mobileWarrantyStatus = req.body.mWarrantyStatus;
-		    product.mobileWarrantyType = req.body.mWarrantyType;
-		    product._model_id = req.body.mModelNo;	    
+	    	  product.verified  = false;  
+	    	  product.product_serial_no = req.body.product_serial_no;
+	    	  product.product_nick_name = req.body.product_nick_name;
+	    	  product.purchase_DT = req.body.purchase_DT;
+	    	  product.dealer = req.body.dealer;
+	    	  product.is_deleted = req.body.is_deleted;
+	    	  product.purchase_cost = req.body.purchase_cost;
+	    	  product._cust_id = req.body._cust_id;
+	    	  product.localLocation= req.body.localLocation;;						   
+	    	  product.userRegContactNumber = req.body.userRegContactNumber;
+	    	  product.warrantyEndsDate = req.body.warrantyEndsDate;
+	    	  product.warrantyStatus = req.body.warrantyStatus;
+	    	  product.warrantyType = req.body.warrantyType;
+	    	  product._model_id = req.body._model_id;  
+	    	  product.brandName = req.body.brandName;
+	    	  product.productName = req.body.productName;
+	    	  product.productCategory = req.body.productCategory;
+	    	  product.productSubCategory = req.body.productSubCategory;
+    
 
 		    // Save the userProduct and check for errors
 		    product.save(function(err) {
@@ -95,7 +106,7 @@ exports.deleteUserProduct =  function(req, res) {
 };
 
 //Create endpoint /api/userProduct/ for GET
-exports.getUserProducts = function(req, res) {
+exports.getAllUserProducts = function(req, res) {
   // Use the Beer model to find all beer
 	UserProduct.find(function(err, products) {
     if (err)
@@ -118,4 +129,20 @@ exports.getUserProduct  = function(req, res) {
     	res.json({status:'900',message:'User product fetched successfully' 
         	  ,data:product});
   });
+};
+
+
+// Get all products of any particular user
+//Create endpoint /api/userProduct/ for GET
+exports.getUserAllProducts = function(req, res) {
+	
+	UserProduct.find({ _cust_id: req.params.customerId } ,function(err, products) {
+		if (err)
+	    	res.json({status:'901',message:'Expetion occurred while fetching all user product' 
+	      	  ,data:{},error:err});
+	    else
+	    	res.json({status:'900',message:'All product fetched successfully' 
+	      	  ,data:products});
+	  });
+	
 };
