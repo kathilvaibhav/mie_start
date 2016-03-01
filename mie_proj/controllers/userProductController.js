@@ -136,7 +136,7 @@ exports.getUserProduct  = function(req, res) {
 //Create endpoint /api/userProduct/ for GET
 exports.getUserAllProducts = function(req, res) {
 	
-	UserProduct.find({ _cust_id: req.params.customerId } ,function(err, products) {
+	UserProduct.find({ _cust_id: req.params.customerId, is_deleted : false } ,function(err, products) {
 		if (err)
 	    	res.json({status:'901',message:'Expetion occurred while fetching all user product' 
 	      	  ,data:{},error:err});
@@ -155,7 +155,7 @@ exports.insertUploadedDocMetaData  = function(req, res) {
       	res.json({status:'901',message:'Expetion occurred while fetching user product' 
         	  ,data:{},error:err});
     else
-    	product.product_doc_info.push({doc_type:req.files.file ,doc_name: req.files.file ,doc_url: '/var/log/img/'+req.files.file });
+    	product.product_doc_info.push({doc_type:req.files.file ,doc_name: req.files.file ,doc_url: '/var/mie/products/userProduct/'+req.files.file });
     // Save the userProduct and check for errors
     product.save(function(err) {
       if (err)

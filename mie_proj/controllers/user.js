@@ -132,3 +132,30 @@ exports.putUser = function(req, res) {
     });
   });
 };
+
+
+//Create endpoint /api/userProduct/:userProductId for GET
+exports.saveUserFeedback  = function(req, res) { 
+	 User.findById(req.params.user_id, function(err, user) {
+    if (err)
+      	res.json({status:'901',message:'Expetion occurred while fetching user ' 
+        	  ,data:{},error:err});
+    else
+    	now = new Date();
+    	user.feedback.push
+    	({feedback_text:req.body.feedback_text ,
+    		feedback_rating:req.body.feedback_rating ,feedback_ts : now  });
+    
+    // Save the userProduct and check for errors
+    user.save(function(err) {
+      if (err)
+    	  res.json({status:'901',message:'Expetion occurred while updating user' 
+        	  ,data:{},error:err});
+      else 
+    	  // record save request is finished lets push this record in user 
+    	  res.json({status:'900',message:'User Feedback is saved...' 
+        	  ,data:user});  
+    });
+    
+  });
+};

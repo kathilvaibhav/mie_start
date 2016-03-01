@@ -5,7 +5,7 @@ var userProductController = require('../controllers/userProductController');
 exports.uploadUserProductImage =  function(req, res) {
   // Create a new instance of the Beer model
 	var file = req.files.file,
-      path = '/var/log/img/';
+      path = '/var/mie/products/userProduct/';
   // Logic for handling missing file, wrong mimetype, no buffer, etc.
 
   var buffer = file.buffer, //Note: buffer only populates if you set inMemory: true.
