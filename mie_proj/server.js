@@ -19,6 +19,11 @@ mongoose.connect('mongodb://localhost:27019/dev_test');
 // Create our Express application
 var app = express();
 
+
+// setup static location for project
+
+app.use('/static', express.static('/var/mie/products/'));
+
 //Allow Request
 app.use(function(req, res, next) {
 	  res.header("Access-Control-Allow-Origin", "*");

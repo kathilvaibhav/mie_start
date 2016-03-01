@@ -14,6 +14,12 @@ router.route('/checkUser')
 router.route('/user/:user_id')
   .get(userController.getUser)
   .put(userController.putUser);
+	
+
+router.route('/user/userFeedback/:user_id')
+.post(userController.saveUserFeedback);
+
+
 
 router.route('/userSearch/:mobile')
 .get(userController.getUserByMobile);
