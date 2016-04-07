@@ -12,11 +12,14 @@ exports.postUser =  function(req, res) {
   console.log(req.body);
   logger.getInfoLogger().log("info","---Request received to add user account with request body -- "+ req.body);
   // Set the user properties that came from the POST data    
-  user.name = req.body.name;  
+   user.name = req.body.name;  
   user.email = req.body.email;
   user.mobile = req.body.mobile;
-  user.auth_method = req.body.authMethod;
-  user.auth_code = req.body.authCode;
+  user.authMethod = req.body.authMethod;
+  user.authCode = req.body.authCode;
+  user.userImageUrl = req.body.userImageUrl;
+  user.isSavedOnCloud = req.body.isSavedOnCloud;
+  user.mMIEId = req.body.mMIEId;
 
   // Save the beer and check for errors
   user.save(function(err) {
@@ -69,7 +72,7 @@ exports.getUser = function(req, res) {
 exports.checkUser = function(req, res) {
 
 			
-	User.find({auth_method:req.query.authMethod , auth_code:req.query.authCode } ).populate('address products').exec( function(err, user) {
+	User.find({authMethod:req.query.authMethod , authCode:req.query.authCode } ).populate('address products').exec( function(err, user) {
     if (err) {        
     	res.json({status:'901',message:'Expetion occurred while fetching user data' 
       	  ,data:{},error:err});
@@ -119,6 +122,12 @@ exports.putUser = function(req, res) {
     user.name = req.body.name;   
     user.email = req.body.email;
     user.mobile = req.body.mobile;
+     user.userImageUrl = req.body.userImageUrl;
+  	user.isSavedOnCloud = req.body.isSavedOnCloud;
+  	user.authMethod = req.body.authMethod;
+  user.authCode = req.body.authCode;
+  	user.mMIEId = req.body.mMIEId;
+    
 
     // Save the beer and check for errors
     user.save(function(err) {

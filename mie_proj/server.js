@@ -11,7 +11,7 @@ var winMid = require("express-winston-middleware");
 var winston = require("winston");
 
 //create a write stream (in append mode) 
-var accessLogStream = fs.createWriteStream('/var/log/mie/access' + '/access.log', {flags: 'a'})
+var accessLogStream = fs.createWriteStream('/home/nitin/Dev/node/node_logs' + '/access.log', {flags: 'a'})
 
 // Connect to the MIE Database MongoDB
 mongoose.connect('mongodb://localhost:27019/dev_test');
@@ -34,22 +34,22 @@ app.use(function(req, res, next) {
 //setup the morgan logger 
 app.use(morgan('combined', {stream: accessLogStream}));
 
-var multer  =  require('multer');
-
-// Use the body-parser package in our application
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-
-app.use(bodyParser.json({
- extended: true
-}));
 
 //Use the passport package in our application
 app.use(passport.initialize());
 
 //Create our Express router
 var router = express.Router();
+
+router.use(bodyParser.json({
+ extended: true,
+ limit: 10 * 1024 * 1024
+}));
+
+//Use the body-parser package in our application
+router.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 
  
@@ -68,71 +68,45 @@ router.use(new winMid.request({
          Router: "traffic"
        }));
 
-app.use('/', router);
+app.use('/test', router);
 
 router.use('/api', require('./routes/UserRoute'));
 router.use('/api', require('./routes/AddressRoute'));
 router.use('/api', require('./routes/ProductRoute'));
 router.use('/api', require('./routes/UserProductRoute'));
-router.use('/api', require('./routes/FileUploadRoute'));
+//router.use('/api', require('./routes/FileUploadRoute'));
 
 // use swagger 
 //Couple the application to the Swagger module. 
 swagger.getSwagget().setAppHandler(app);
 swagger.initializeSwagger(swagger.getSwagget());
 
-
-
-
-// Multer
-//Using Multer for file uploads.
-app.use(multer({
-    dest: './public/profile/img/',
-    limits: {
-        fieldNameSize: 50,
-        files: 1,
-        fields: 5,
-        fileSize: 1024 * 1024
-    },
-    rename: function(fieldname, filename) {
-        return filename;
-    },
-    onFileUploadStart: function(file) {
-        console.log('Starting file upload process.');
-        if(file.mimetype !== 'image/jpg' && file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png') {
-            return false;
-        }
-    },
-    inMemory: true //This is important. It's what populates the buffer.
+var busboy = require("connect-busboy");
+app.use(busboy({
+  limits: {
+    fileSize: 10 * 1024 * 1024*1000
+  }
 }));
-
-
-var imageUpload = function(req, res) {
-    var file = req.files.file,
-        path = './public/profile/img/';
-
-    // Logic for handling missing file, wrong mimetype, no buffer, etc.
-
-    var buffer = file.buffer, //Note: buffer only populates if you set inMemory: true.
-        fileName = file.name;
-    var stream = fs.createWriteStream(path + fileName);
-    stream.write(buffer);
-    stream.on('error', function(err) {
-        console.log('Could not write file to memory.');
-        res.status(400).send({
-            message: 'Problem saving the file. Please try again.'
+var fs = require('fs');
+app.post("/upload", function(req, res) {
+var fstream,path = 'uploads/';
+    if(req.busboy) {
+        req.busboy.on("file", function(fieldname, file, filename) {
+            //Handle file stream here
+            console.log(fieldname);
+            fstream = fs.createWriteStream(path + filename);
+    		file.pipe(fstream);
         });
-    });
-    stream.on('finish', function() {
-        console.log('File saved successfully.');
-        var data = {
-            message: 'File saved successfully.'
-        	};
-        res.jsonp(data);
-    });
-    stream.end();
-    console.log('Stream ended.');
-};
+        
+        req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
+     	console.log(key);
+     	//console.log(value);
+    	});
+        return req.pipe(req.busboy);
+    }
+    //Something went wrong -- busboy was not loaded
+});
+
 
 // Register all our routes with /api
 //app.use('/api', router);

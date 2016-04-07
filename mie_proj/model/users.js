@@ -4,24 +4,21 @@ var bcrypt = require('bcrypt-nodejs');
 var Schema = mongoose.Schema;
 // Define schema for user
 var userSchema = new Schema({  
-	name: String,
-//  UserName:   { type: String, required: true ,unique: true},
-//  Password:   { type: String, required: true },
+   name: String,
   email: { type: String, required: true ,unique: true},
-  auth_method: { type: String, required: true},
-  auth_code: { type: String, required: true},
+  authMethod: { type: String, required: true},
+  authCode: { type: String, required: true},
   mobile:{ type: Number,required: true ,unique: true , min: 1000000000, max: 9999999999},		
   registratioDate: { type: Date, default: Date.now },
   lastLogin: { type: Date, default: Date.now },
   isActive: Boolean,
+  userImageUrl : String,
   address : [{ type: Schema.Types.ObjectId, ref: 'Address' }],
   products : [{ type: Schema.Types.ObjectId, ref: 'UserProduct' }],
-  feedback : [{feedback_text:String , feedback_rating:String , feedback_ts: Date}]
-  
+  feedback : [{feedback_text:String , feedback_rating:String , feedback_ts: Date}],
+  isSavedOnCloud : String,
+  mMIEId : String
 });
-
-
-
 
 //userSchema.methods.verifyPassword = function(Password, cb) {
 //	  bcrypt.compare(Password, this.Password, function(err, isMatch) {
