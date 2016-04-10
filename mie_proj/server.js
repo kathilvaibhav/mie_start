@@ -1,4 +1,5 @@
 // Load required packages
+//process.env.TMPDIR = '/home/nitin/tmp';
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
@@ -11,13 +12,15 @@ var winMid = require("express-winston-middleware");
 var winston = require("winston");
 
 //create a write stream (in append mode) 
-var accessLogStream = fs.createWriteStream('/home/nitin/Dev/node/node_logs' + '/access.log', {flags: 'a'})
+var accessLogStream = fs.createWriteStream('/var/log/mie' + '/access.log', {flags: 'a'})
 
 // Connect to the MIE Database MongoDB
 mongoose.connect('mongodb://localhost:27019/dev_test');
 
 // Create our Express application
 var app = express();
+
+
 
 
 // setup static location for project
@@ -87,26 +90,37 @@ app.use(busboy({
     fileSize: 10 * 1024 * 1024*1000
   }
 }));
-var fs = require('fs');
-app.post("/upload", function(req, res) {
-var fstream,path = 'uploads/';
-    if(req.busboy) {
-        req.busboy.on("file", function(fieldname, file, filename) {
-            //Handle file stream here
-            console.log(fieldname);
-            fstream = fs.createWriteStream(path + filename);
-    		file.pipe(fstream);
-        });
-        
-        req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
-     	console.log(key);
-     	//console.log(value);
-    	});
-        return req.pipe(req.busboy);
-    }
-    //Something went wrong -- busboy was not loaded
-});
 
+
+ var multipart = require('multiparty');
+var fs = require('fs');
+ app.post('/upload', function(req, res){
+
+    var form = new multipart.Form();
+
+    form.parse(req, function(err, fields, files) {   
+       console.log(files);//list all files uploaded 
+       //put in here all the logic applied to your files.   
+       
+        var file = files.file[0];
+        var tempPath = file.path;
+        console.log(tempPath);
+        console.log(__dirname);
+        var targetPath = __dirname + '/uploads' + '/' + file.originalFilename;
+        fs.rename(tempPath, targetPath, function (err) {
+            if (err) {
+            	console.log(err);
+                throw err
+            }
+           // logger.debug(file.name + " upload complete for user: " + username);
+            return res.json({status:'900', 
+            	message:"datadone"})
+        });
+    });
+       
+   
+            
+  }); 
 
 // Register all our routes with /api
 //app.use('/api', router);
